@@ -5,8 +5,10 @@ namespace DevBook.Data.Models
 {
 	public class User : DbModel
 	{
-		public string Login { get; set; }
+		public List<UserObjective> UserObjectives { get; set; }
 
-		public ICollection<Objective> Objectives { get; set; }
+		public ICollection<Contact> Contacts { get; set; }
+
+		public string Login { get; set; }
 	}
 }

@@ -12,5 +12,11 @@ namespace DevBook.Data
 		public DbSet<User> Users { get; set; }
 
 		public DbSet<Objective> Objectives { get; set; }
+
+		protected override void OnModelCreating(ModelBuilder modelBuilder)
+		{
+			modelBuilder.Entity<UserObjective>()
+				.HasKey(s => new {s.ObjectiveId, s.UserId});
+		}
 	}
 }
