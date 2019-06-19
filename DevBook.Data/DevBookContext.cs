@@ -11,6 +11,8 @@ namespace DevBook.Data
 
 		public DbSet<User> Users { get; set; }
 
+		public DbSet<Contact> Contacts { get; set; }
+
 		public DbSet<Objective> Objectives { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
