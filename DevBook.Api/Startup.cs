@@ -1,4 +1,7 @@
 ﻿using DevBook.Data;
+using DevBook.Data.Abstraction;
+using DevBook.Data.Models;
+using DevBook.Data.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +20,7 @@ namespace DevBook.Api
 
 		public void ConfigureServices(IServiceCollection services)
 			=> services
+				.AddScoped<IRepository<Objective>, ObjectivesRepository>()
 				.AddDbContextPool<DevBookContext>(opts => opts
 					.UseSqlServer(_configuration.GetConnectionString("DevBookDb")))
 				.AddMvc();

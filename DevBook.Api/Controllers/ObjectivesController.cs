@@ -1,9 +1,9 @@
-﻿using System.Threading.Tasks;
-using DevBook.Data;
+﻿using System;
+using System.Threading.Tasks;
+using DevBook.Data.Abstraction;
 using DevBook.Data.Models;
 using DevBook.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace DevBook.Api.Controllers
 {
@@ -12,32 +12,26 @@ namespace DevBook.Api.Controllers
 	[Produces("application/json")]
 	public class ObjectivesController : ControllerBase
 	{
-		private readonly DevBookContext _context;
+		private readonly IRepository<Objective> _objectives;
 
 		public ObjectivesController(
-			DevBookContext context) 
-				=> _context = context;
+			IRepository<Objective> objectives) 
+				=> _objectives = objectives;
 
 		[HttpGet]
-		public async Task<IActionResult> GetObjectives()
-		{
-			var objectives = await _context.Objectives.ToListAsync();
-			return Ok(objectives);
-		}
+		public async Task<IActionResult> GetObjectives() 
+			=> Ok(await _objectives.GetAsync(x => true));
 
 		[HttpGet("{id}", Name = "GetObjective")]
-		public async Task<IActionResult> GetObjective()
-		{
-			var objectives = await _context.Objectives.ToListAsync();
-			return Ok(objectives);
-		}
+		public async Task<IActionResult> GetObjective(Guid id) 
+			=> Ok(await _objectives.GetAsync(id));
 
 		[HttpPost]
 		public async Task<IActionResult> CreateObjective([FromBody] ObjectiveToCreate objective)
 		{
 			var newObjective = new Objective { Description = objective.Description };
-			_context.Objectives.Add(newObjective);
-			await _context.SaveChangesAsync();
+			_objectives.Add(newObjective);
+			await _objectives.CommitAsync();
 			return CreatedAtRoute(
 				routeName: "GetObjective", 
 				routeValues: new { id = newObjective.Id }, 

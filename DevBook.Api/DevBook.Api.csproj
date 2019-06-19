@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DevBook.Data.Models\DevBook.Data.Models.csproj" />
     <ProjectReference Include="..\DevBook.Data\DevBook.Data.csproj" />
     <ProjectReference Include="..\DevBook.Models\DevBook.Models.csproj" />
   </ItemGroup>
